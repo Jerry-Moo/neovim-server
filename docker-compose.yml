@@ -1,0 +1,31 @@
+# docker-compose.yml
+
+version: "3.1"
+# services
+services:
+  wetty:
+    image: "wuchujie/wetty:latest"
+    build:
+      context: .
+      dockerfile: containers/wetty/Dockerfile
+    tty: true
+    working_dir: /usr/src/app
+
+  neovim-server:
+    image: "wuchujie/nvim-server:latest"
+    build:
+      context: .
+      dockerfile: containers/nvim-server/Dockerfile
+    tty: true
+    working_dir: /workspace
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    environment:
+      - USER=guest
+      - SECRET=password
+      - TZ=Asia/Shanghai
+    volumes:
+      - $HOME/workspaces:/workspace # workspace
+      - $HOME/.config/nvim:/config # nvim config
+    restart: unless-stopped
