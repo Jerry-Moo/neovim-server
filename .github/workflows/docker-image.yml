@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+jobs:
+  # This workflow contains a single job called "multi-arch build"
+  multi-arch-build:
+    runs-on: ubuntu-latest
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - uses: actions/checkout@v3
+    # Get current tag version and pass it as environment variable
+    - name: Set environment variable
+      run: |
+          echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          echo "MAIN_IMAGE=nvim-server" >> $GITHUB_ENV
+          echo "BASE_IMAGE=wetty" >> $GITHUB_ENV
+          echo "DOCKERHUB_REGISTRY=wuchujie" >> $GITHUB_ENV
+          echo "GITHUB_REGISTRY=ghcr.io" >> $GITHUB_ENV
+          echo "GITHUB_PKG_REPOSITORY=yqlbu/nvim-server" >> $GITHUB_ENV
+          echo "LATEST=latest" >> $GITHUB_ENV
