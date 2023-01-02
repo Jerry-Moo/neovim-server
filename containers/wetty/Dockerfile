@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:latest
 
 ENV TZ=America/LosAngeles \
     PORT=3000 \
@@ -13,11 +13,6 @@ ENV TZ=America/LosAngeles \
     SSL=false \
     PKGS=none \
     CONTAINER=wetty
-
-RUN apt-get update && apt-get install -y --no-install-recommends tzdata \
-    sudo openssl curl openssh-client sshpass locales
-RUN echo $TZ > /etc/timezone && apt-get install -y tzdata && \
-    dpkg-reconfigure tzdata && locale-gen en_US.UTF-8
 
 RUN apt-get update && apt-get install -y --no-install-recommends tzdata \
     sudo openssl curl openssh-client sshpass locales
