@@ -57,12 +57,13 @@ if [ "$CONTAINER" != "wetty" ]; then
   fi
 
   if [[ ! -L "$HOME/.config/nvim" && ! -d "$HOME/.config/nvim" ]]; then
-    ln -sf /config $HOME/.config
-    cp -r /usr/src/app/nvim $HOME/.config/
-    cp -r /usr/src/app/nvim/ranger $HOME/.config
+    mkdir -p $HOME/.config
+    ln -sf /config $HOME/.config/nvim
+    cp -r /usr/src/app/nvim/* $HOME/.config/nvim/
+    cp -r /usr/src/app/plugins/ranger $HOME/.config
     git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
     mkdir -p $HOME/.config/jesseduffield
-    cp -r /usr/src/app/nvim/lazygit $HOME/.config/jesseduffield/lazygit
+    cp -r /usr/src/app/plugins/lazygit $HOME/.config/jesseduffield/lazygit
   fi
 
   [[ ! -L "$HOME/workspace" && ! -d "$HOME/workspace" ]] && ln -sf /workspace $HOME/workspace
@@ -74,9 +75,9 @@ if [ "$CONTAINER" != "wetty" ]; then
 fi
 
 chown -R ${USER}:${GID} ${HOME}
-chown -R ${USER}:${GID} /config
+# chown -R ${USER}:${GID} /config
 chown -R ${USER}:${GID} ${HOME}/.config
-chown -R ${USER}:${GID} /workspace
+# chown -R ${USER}:${GID} /workspace
 chown -R ${USER}:${GID} ${HOME}/workspace
 
 echo -e "==> [INFO] Starting container .."
