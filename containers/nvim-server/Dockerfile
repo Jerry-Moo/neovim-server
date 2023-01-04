@@ -30,7 +30,7 @@ RUN ARCH=$(dpkg --print-architecture) && echo $ARCH > ./ARCH
 RUN sudo add-apt-repository ppa:neovim-ppa/unstable -y
 # RUN sudo add-apt-repository ppa:lazygit-team/release -y
 RUN sudo apt-get update && sudo apt-get install -y --no-install-recommends \
-    wget python3-dev python3-pip golang neovim ranger ruby ruby-dev ruby-bundler
+    wget python3-dev python3-pip golang neovim ranger ruby ruby-dev ruby-bundler tmux
 RUN MY_FLAVOR=Linux_x86_64; curl -s -L $(curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep -i "$MY_FLAVOR") | sudo tar xzf - -C /usr/local/bin lazygit
 RUN rm -rf /usr/bin/pip && ln -s /usr/bin/pip3 /usr/bin/pip && \
     rm -rf /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
