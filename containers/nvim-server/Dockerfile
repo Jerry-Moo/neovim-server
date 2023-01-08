@@ -58,9 +58,7 @@ WORKDIR /usr/src/app
 EXPOSE 3000
 
 ADD ./bootstrap.sh /usr/local/sbin
-ADD ./zsh-in-docker.sh /usr/local/sbin
 RUN chmod u+x /usr/local/sbin/bootstrap.sh
-RUN chmod u+x /usr/local/sbin/zsh-in-docker.sh
 COPY ./nvim /usr/src/app/nvim
 COPY ./plugins /usr/src/app/plugins
 

@@ -54,27 +54,7 @@ if [ "$CONTAINER" != "wetty" ]; then
     echo "export LANG=en_US.UTF-8" >> $HOME/.bashrc
     echo "export EDITOR=nvim" >> $HOME/.bashrc
     echo "export PATH=$HOME/.local/bin:$PATH" >> $HOME/.bashrc
-    echo "export SHELL=`which sh`" >> $HOME/.bashrc
-    echo "zsh" >> $HOME/.bashrc
-    echo "exit" >> $HOME/.bashrc
   fi
-
-  if [[ ! -L "$HOME/.oh-my-zsh" && ! -d "$HOME/.oh-my-zsh" ]]; then
-    echo -e "==> [INFO] Installing oh-my-zsh"
-    sh -c zsh-in-docker.sh
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    echo "# BOOTSTRAP ZSH ENV" >> $HOME/.zshrc
-    echo "alias ..='cd ..'" >> $HOME/.zshrc && echo "alias ...='cd ../../'" >> /home/$USER/.zshrc
-    echo "alias vim='nvim'" >> $HOME/.zshrc
-    echo "alias ra='ranger'" >> $HOME/.zshrc
-    echo "alias lg='lazygit'" >> $HOME/.zshrc
-    echo "export LANG=en_US.UTF-8" >> $HOME/.zshrc
-    echo "export EDITOR=nvim" >> $HOME/.zshrc
-    echo "export PATH=$HOME/.local/bin:$PATH" >> $HOME/.zshrc
-    echo "export TERM=xterm-256color" >> $HOME/.zshrc
-  fi
-
-
 
   if [[ ! -L "$HOME/.config/nvim" && ! -d "$HOME/.config/nvim" ]]; then
     mkdir -p $HOME/.config
