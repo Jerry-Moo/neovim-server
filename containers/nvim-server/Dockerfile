@@ -36,7 +36,7 @@ RUN rm -rf /usr/bin/pip && ln -s /usr/bin/pip3 /usr/bin/pip && \
     rm -rf /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
 RUN pip install -U pip && pip install -U \
     pynvim neovim-remote pylint
-RUN gem install neovim
+RUN gem install neovim # Install neovim ruby support
 RUN if [ "$(cat ./ARCH)" = "amd64" ] ; then \
       wget https://github.com/wfxr/code-minimap/releases/download/v0.6.0/code-minimap_0.6.0_amd64.deb; \
       dpkg -i code-minimap_0.6.0_amd64.deb; \
@@ -58,9 +58,11 @@ WORKDIR /usr/src/app
 EXPOSE 3000
 
 ADD ./bootstrap.sh /usr/local/sbin
+ADD ./zsh-in-docker.sh /usr/local/sbin
 RUN chmod u+x /usr/local/sbin/bootstrap.sh
-COPY ./nvim /usr/src/app/nvim
-COPY ./plugins /usr/src/app/plugins
+RUN chmod u+x /usr/local/sbin/zsh-in-docker.sh
+COPY ./nvim/. /usr/src/app/nvim
+COPY ./plugins/. /usr/src/app/plugins
 
 ENTRYPOINT [ "bootstrap.sh" ]
 CMD [ "wetty" ]
