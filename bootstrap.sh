@@ -56,10 +56,27 @@ if [ "$CONTAINER" != "wetty" ]; then
     echo "export PATH=$HOME/.local/bin:$PATH" >> $HOME/.bashrc
   fi
 
+  if [[ ! -L "$HOME/.oh-my-zsh" && ! -d "$HOME/.oh-my-zsh" ]]; then
+    echo -e "==> [INFO] Installing oh-my-zsh"
+    sh -c zsh-in-docker.sh
+    if grep -Fxq '# BOOTSTRAP ZSH ENV' $HOME/.zshrc; then
+      echo "==> [INFO] zshrc already setup, so skipped.."
+    else
+      echo "# BOOTSTRAP ZSH ENV" >> $HOME/.zshrc
+      echo "alias ..='cd ..'" >> $HOME/.zshrc && echo "alias ...='cd ../../'" >> /home/$USER/.zshrc
+      echo "alias vim='nvim'" >> $HOME/.zshrc
+      echo "alias ra='ranger'" >> $HOME/.zshrc
+      echo "alias lg='lazygit'" >> $HOME/.zshrc
+      echo "export EDITOR=nvim" >> $HOME/.zshrc
+      echo "export PATH=$HOME/.local/bin:$PATH" >> $HOME/.zshrc
+      echo "export TERM=xterm-256color" >> $HOME/.zshrc
+    fi
+  fi
+
   if [[ ! -L "$HOME/.config/nvim" && ! -d "$HOME/.config/nvim" ]]; then
     mkdir -p $HOME/.config
     ln -sf /config $HOME/.config/nvim
-    cp -r /usr/src/app/nvim/* $HOME/.config/nvim/
+    cp -r /usr/src/app/nvim/. $HOME/.config/nvim/
     cp -r /usr/src/app/plugins/ranger $HOME/.config
     git clone https://github.com/alexanderjeurissen/ranger_devicons $HOME/.config/ranger/plugins/ranger_devicons
     mkdir -p $HOME/.config/jesseduffield
