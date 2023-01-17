@@ -86,7 +86,8 @@ if [ "$CONTAINER" != "wetty" ]; then
   [[ ! -L "$HOME/workspace" && ! -d "$HOME/workspace" ]] && ln -sf /workspace $HOME/workspace
 
   echo -e "==> [INFO] Setting up / Updating neovim .."
-  nvim --headless +PlugInstall +qall > /dev/null 2>&1
+  # coc-nvim  plugin install
+  # nvim --headless +PlugInstall +qall > /dev/null 2>&1
 
   # echo -e "==> [INFO] Setting up / Updating coc extensions .."
 fi
