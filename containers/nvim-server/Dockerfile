@@ -27,10 +27,16 @@ ENV TZ=America/LosAngeles \
 
 RUN ARCH=$(dpkg --print-architecture) && echo $ARCH > ./ARCH
 
-RUN sudo add-apt-repository ppa:neovim-ppa/unstable -y
+# RUN sudo add-apt-repository ppa:neovim-ppa/unstable -y
 # RUN sudo add-apt-repository ppa:lazygit-team/release -y
 RUN sudo apt-get update && sudo apt-get install -y --no-install-recommends \
-    wget python3-dev python3-pip golang neovim ranger ruby ruby-dev ruby-bundler tmux zsh
+    ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen lua5.3 liblua5.3-dev wget python3-dev python3-pip golang ruby ruby-dev ruby-bundler tmux zsh ranger
+# Install Neovim from source.
+RUN mkdir -p /root/TMP
+RUN cd /root/TMP && git clone https://github.com/neovim/neovim
+RUN cd /root/TMP/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install
+RUN rm -rf /root/TMP
+# Install lazygit
 RUN MY_FLAVOR=Linux_x86_64; curl -s -L $(curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep -i "$MY_FLAVOR") | sudo tar xzf - -C /usr/local/bin lazygit
 RUN rm -rf /usr/bin/pip && ln -s /usr/bin/pip3 /usr/bin/pip && \
     rm -rf /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
